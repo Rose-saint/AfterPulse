@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa8d3a73c9e2014da69013676fe6077, type: 3}
+  m_Name: Engine_Fast_Mk1
+  m_EditorClassIdentifier: 
+  maxGear: 5
+  speedPerGear: 15
+  boostMultiplier: 1.8
+  accel: 30
+  brakeAccel: 50
+  pitchSpeed: 60
+  rollSpeed: 80
+  yawSpeed: 60
+  cruiseEnergyPerSec: 6
+  boostEnergyPerSec: 12
+  energyCapacity: 80

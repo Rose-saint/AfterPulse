@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4fa8d3a73c9e2014da69013676fe6077, type: 3}
+  m_Name: Engine_Balance
+  m_EditorClassIdentifier: 
+  maxGear: 5
+  speedPerGear: 12
+  boostMultiplier: 1.6
+  accel: 25
+  brakeAccel: 40
+  pitchSpeed: 40
+  rollSpeed: 60
+  yawSpeed: 40
+  cruiseEnergyPerSec: 2
+  boostEnergyPerSec: 6
+  energyCapacity: 120
