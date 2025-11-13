@@ -9,8 +9,6 @@ TagManager:
   - Projectile_Enemy
   - Loot
   - Environment
-  - TriggerOnly
-  - RadarPing
   layers:
   - Default
   - TransparentFX

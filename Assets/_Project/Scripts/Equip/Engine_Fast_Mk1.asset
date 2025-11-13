@@ -15,8 +15,8 @@ MonoBehaviour:
   maxGear: 5
   speedPerGear: 15
   boostMultiplier: 1.8
-  accel: 30
-  brakeAccel: 50
+  accel: 50
+  brakeAccel: 70
   pitchSpeed: 60
   rollSpeed: 80
   yawSpeed: 60
