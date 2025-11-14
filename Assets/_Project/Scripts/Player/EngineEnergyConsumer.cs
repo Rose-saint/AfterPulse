@@ -24,18 +24,27 @@ public class EngineEnergyConsumer : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!energySystem||equipment?.Engine?.def==null) return;//为什么是？.这是啥意思
+        if(!energySystem||equipment?.Engine?.def==null) return;//没有能量系统或引擎就直接返回
         
         float dt=Time.deltaTime;
-        float demandPerSec = 0f;
+        var engDef = equipment.Engine.def;
+
+        //档位固定负载
+        float baseLoad = 0f;
         //只要档位>0就有巡航耗能
         if (_ctrl.CurrentGear > 0)
-            demandPerSec += equipment.Engine.def.cruiseEnergyPerSec;
+        {
+            baseLoad = engDef.cruiseEnergyPerSec*_ctrl.CurrentGear;
+        }
+        energySystem.SetEngineBaseLoad(baseLoad);
+        float overheatThisFrame = 0f;
         //开加力额外耗能
         if (_ctrl.IsBoosting)
-            demandPerSec += equipment.Engine.def.boostEnergyPerSec;
-        //申请能量（按秒计费）
-        energySystem.TryConsume(demandPerSec * dt);
+            overheatThisFrame = engDef.boostEnergyPerSec * dt;
+        if (overheatThisFrame > 0f)
+        {
+            energySystem.AddEngineLoad(overheatThisFrame);
+        }
         //功率缩放反馈给控制器
         _ctrl.powerScale = energySystem.PowerScale;
     }

@@ -29,7 +29,10 @@ public class WeaponFireController : MonoBehaviour
     public float fallbackFireRate = 6f;
     public float fallbackProjectileSpeed = 200f;
     public float fallbackEnergyCost = 5f;
-    [Header("SPawn")]
+    [Header("Runtime Debug")]
+    [Tooltip("当前实际射速,xx发/秒")]
+    public float currentFireRate;
+    [Header("Spawn")]
     public float spawnForwardOffset = 0.25f;
 
     float _cooldownTimer = 0f;
@@ -61,16 +64,29 @@ public class WeaponFireController : MonoBehaviour
         if(!muzzle||!projectilePrefab)return;
         //读取武器定义
         var def=equipment?equipment.MainWeapon:null;
-        float damage =def?def.damage:fallbackdamage;
-        float fireRate = def?def.fireRate:fallbackFireRate;
-        float speed=def?def.projectileSpeed:fallbackProjectileSpeed;
+        float damageBase =def?def.damage:fallbackdamage;
+        float fireRateBase = def?def.fireRate:fallbackFireRate;
         float energyCost=def?def.energyCostPerShot:fallbackEnergyCost;
-        //Railgun只在能量足够时开火
-        if (energySystem && energyCost > 0f)
+        float powerScale = 1f;
+        float speedBase = def ? def.projectileSpeed : fallbackProjectileSpeed;
+        float speed = speedBase;
+        if (energySystem&&energySystem.IsOverload)
         {
-            bool ok = energySystem.TryConsume(energyCost);
-            if (!ok) return;
+            speed *= 0.7f;
         }
+        //Railgun只在能量足够时开火
+        if (energySystem)
+        {
+            if(energyCost > 0f)
+            {
+                energySystem.AddWeaponLoad(energyCost);
+            }
+            powerScale = energySystem.PowerScale;
+            //以后扩展武器过载期间禁止开火
+            //if (energySystem.IsOverload)return;
+        }
+        float damage = damageBase;
+
         bool shooterIsPlayer = CompareTag("Player");
         int layerProj = LayerMask.NameToLayer(shooterIsPlayer ? "Projectile_Player" : "Projectile_Enemy");
         LayerMask hitMask = LayerMask.GetMask(
@@ -96,7 +112,12 @@ public class WeaponFireController : MonoBehaviour
             proj.hitMask = hitMask;
         }
 
-        float cd = (fireRate > 0f) ? (1f / fireRate) : 0.2f;
+        float effectiveRireRate = fireRateBase * powerScale;
+        if (effectiveRireRate <= 0f) effectiveRireRate = 0.1f;
+
+        currentFireRate = effectiveRireRate;
+
+        float cd = 1f/effectiveRireRate;
         _cooldownTimer = cd;
 
 
