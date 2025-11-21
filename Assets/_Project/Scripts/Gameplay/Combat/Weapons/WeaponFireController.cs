@@ -58,7 +58,7 @@ public class WeaponFireController : MonoBehaviour
         if (Input.GetKey(firekey)) { TryFire(); }
 
     }
-    void TryFire()
+    public void TryFire()
     {
         if (_cooldownTimer>0f)return;
         if(!muzzle||!projectilePrefab)return;

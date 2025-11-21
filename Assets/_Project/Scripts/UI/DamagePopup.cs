@@ -14,6 +14,8 @@ public class DamagePopup : MonoBehaviour
     public Vector3 randomXZ = new Vector3 (0.2f, 0, 0.2f);
     public float fadeStart = 0.4f;
     public string numberFormat = "F0";
+    [Header("颜色设置")]
+    public Color overrideColor= Color.clear;
 
     TextMeshPro _tmp;
     Transform _tf;
@@ -38,6 +40,11 @@ public class DamagePopup : MonoBehaviour
             return;
         }
         _baseColor = _tmp.color;
+        if (overrideColor.a > 0.001f)
+        {
+            _baseColor = overrideColor;
+            _tmp.color = _baseColor;
+        }
         //初始随机漂移
         Vector3 off = new Vector3 (
             Random.Range(-randomXZ.x,randomXZ.x),
